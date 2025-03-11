@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package modal;
+
+// DadJokeGraphInput represents input parameters for generating dad jokes
+message DadJokeStates {
+  // The topic of the dad joke
+  optional string topic = 1;
+  
+  // The style of the dad joke
+  optional string style = 2;
+}

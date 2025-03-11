@@ -5,6 +5,8 @@ from langchain_google_vertexai import ChatVertexAI
 from langgraph.graph.message import add_messages
 from typing_extensions import TypedDict
 
+from app.modal.generated.joke_pb2 import DadJokeStates
+
 
 class DadJokeGraphInput(TypedDict):
     # Take the entire conversation history as input.
@@ -17,11 +19,7 @@ class DadJokeGraphInput(TypedDict):
     # Gemini client. Use it in a stateless way.
     worker_agent: ChatVertexAI
 
-    # The topic of the dad joke.
-    topic: Optional[str]
-
-    # The style of the dad joke.
-    style: Optional[str]
+    dad_joke_states: DadJokeStates
 
 
 class DadJokeGraphOutput(TypedDict):

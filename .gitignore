@@ -3,4 +3,5 @@ app/graphs/__pycache__/**
 app/graphs/main_graph/__pycache__/**
 app/graphs/dad_joke/__pycache__/**
 app/functions/__pycache__/**
+app/modal/generated/**
 

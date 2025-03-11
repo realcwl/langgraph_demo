@@ -4,6 +4,7 @@ from langchain_core.messages import AIMessage, ToolMessage
 from langgraph.graph import END, START, StateGraph
 
 from app.graphs.dad_joke.states import DadJokeGraphInput, DadJokeGraphOutput
+from app.modal.generated.joke_pb2 import DadJokeStates
 
 
 async def get_dad_joke_setup(state: DadJokeGraphInput) -> Dict[str, Any]:
@@ -21,8 +22,10 @@ async def get_dad_joke_setup(state: DadJokeGraphInput) -> Dict[str, Any]:
         raise ValueError("No topic or style found in the function call arguments")
 
     return {
-        "topic": arguments.get("topic"),
-        "style": arguments.get("style"),
+        "dad_joke_states": DadJokeStates(
+            topic=arguments.get("topic"),
+            style=arguments.get("style"),
+        ),
     }
 
 
@@ -35,11 +38,13 @@ async def generate_dad_joke(state: DadJokeGraphInput) -> Dict[str, Any]:
     assert isinstance(tool_call_message, AIMessage)
     tool_call_id = tool_call_message.tool_calls[0]["id"]
 
+    dad_joke_states = state["dad_joke_states"]
+
     # TODO: Refactor this to use a prompt template.
     PROMPT = f"""
     Generate a dad joke with the following topic and style:
-    Topic: {state["topic"]}
-    Style: {state["style"]}
+    Topic: {dad_joke_states.topic}
+    Style: {dad_joke_states.style}
     """
 
     response = await state["worker_agent"].ainvoke(PROMPT)
