@@ -10,12 +10,7 @@ def route_to_operator(state: MainState) -> str:
     - If the user says 'exit' or 'stop', end the conversation.
     - Otherwise, let the LLM handle the response.
     """
-    action = state["action"]
-
-    if not action:
-        return "end"
-    else:
-        return action
+    return state["action"]
 
 
 # Determine if there is function call.

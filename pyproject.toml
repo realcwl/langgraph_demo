@@ -13,6 +13,7 @@ langchain-google-genai = "^2.0.11"
 langchain-google-vertexai = "^2.0.14"
 google-cloud-aiplatform = "^1.82.0"
 mypy-protobuf = "^3.6.0"
+langgraph-cli = "^0.1.75"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -18,7 +18,6 @@ def create_main_graph():
 
     # Add nodes
     builder.add_node("determine_intent", determine_intent)
-    builder.add_node("has_function_call", has_function_call)
     builder.add_node("extract_args", extract_args)
     builder.add_node("get_dad_joke_node", create_dad_joke_graph())
     builder.add_node("modify_dad_joke_node", create_modify_dad_joke_graph())
@@ -33,12 +32,11 @@ def create_main_graph():
         },
     )
     builder.add_conditional_edges(
-        "determine_intent",
+        "extract_args",
         route_to_operator,
         {
             get_dad_joke.__name__: "get_dad_joke_node",
             modify_dad_joke.__name__: "modify_dad_joke_node",
-            "end": END,
         },
     )
     # Add a loopback edge once when the get_dad_joke_node is finished.
