@@ -6,6 +6,7 @@ from langchain_google_vertexai import ChatVertexAI
 
 from app.agent import StatelessAgent
 from app.functions.get_dad_joke import get_dad_joke
+from app.functions.modify_dad_joke import modify_dad_joke
 from app.graphs.main_graph.main_graph import create_main_graph
 from app.graphs.main_graph.states import get_agent_response, get_empty_state
 
@@ -20,13 +21,14 @@ For any other questions, be helpful and concise without calling tools."""
 async def main():
     """Main entry point for the assistant."""
     agent = StatelessAgent().set_graph(create_main_graph())
-    state = get_empty_state()
     main_loop_client = ChatVertexAI(
         model_name="gemini-2.0-flash", temperature=0.7, max_output_tokens=1024
     )
-    main_loop_client_with_tools = main_loop_client.bind_tools([get_dad_joke])
-    state["human_interaction_agent"] = main_loop_client_with_tools
-    state["worker_agent"] = main_loop_client
+    main_loop_client_with_tools = main_loop_client.bind_tools([get_dad_joke, modify_dad_joke])
+    state = get_empty_state(
+        human_interaction_agent=main_loop_client_with_tools,
+        worker_agent=main_loop_client,
+    )
 
     print("Welcome to the LangGraph Demo Assistant!")
     print("You can ask for a dad joke or a heartwarming poem.")
@@ -36,6 +38,7 @@ async def main():
         user_input = input("\nYou: ")
         if user_input.lower() in ["exit", "quit", "bye"]:
             break
+
         state["messages"].append(HumanMessage(content=user_input))
 
         # Invoke the agent and update the state.

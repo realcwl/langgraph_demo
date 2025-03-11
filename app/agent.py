@@ -14,10 +14,4 @@ class StatelessAgent:
     # Asynchronously invoke the graph on a single input.
     async def ainvoke(self, state: MainState) -> MainState:
         result = await self.graph.ainvoke(state)
-        # Convert the result to MainState
-        return MainState(
-            messages=result.get("messages", []),
-            action=result.get("action"),
-            human_interaction_agent=state.get("human_interaction_agent"),
-            worker_agent=state.get("worker_agent"),
-        )
+        return MainState(**result)

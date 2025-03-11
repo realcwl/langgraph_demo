@@ -8,7 +8,7 @@ from typing_extensions import TypedDict
 from app.modal.generated.joke_pb2 import DadJokeStates
 
 
-class DadJokeGraphInput(TypedDict):
+class ModifyDadJokeGraphInput(TypedDict):
     # Take the entire conversation history as input.
     # TODO: Limit this to the last 1 message.
     messages: Annotated[list[AnyMessage], add_messages]
@@ -19,9 +19,10 @@ class DadJokeGraphInput(TypedDict):
     # Gemini client. Use it in a stateless way.
     worker_agent: ChatVertexAI
 
+    # The state of the dad joke.
     dad_joke_states: DadJokeStates
 
 
-class DadJokeGraphOutput(TypedDict):
+class ModifyDadJokeGraphOutput(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
     action: Optional[str]

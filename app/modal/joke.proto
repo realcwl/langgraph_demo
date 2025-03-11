@@ -9,4 +9,10 @@ message DadJokeStates {
   
   // The style of the dad joke
   optional string style = 2;
+
+  // The additional instruction for modifying the dad joke
+  optional string instruction = 3;
+
+  // The content of the dad joke
+  optional string content = 4;
 }
